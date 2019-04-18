@@ -9,13 +9,7 @@ AnimatorController:
   m_Name: Bench
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: BenchBackClose
-    m_Type: 9
-    m_DefaultFloat: 0
-    m_DefaultInt: 0
-    m_DefaultBool: 0
-    m_Controller: {fileID: 0}
-  - m_Name: BenchBackOpen
+  - m_Name: BenchBackToggle
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -43,7 +37,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: BenchBackOpen
+    m_ConditionEvent: BenchBackToggle
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102380556641796390}
@@ -68,7 +62,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: BenchBackClose
+    m_ConditionEvent: BenchBackToggle
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102288091891216478}
