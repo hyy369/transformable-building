@@ -86,7 +86,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (m_cursorIsLocked)
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+                Cursor.visible = true;// Modified by Jiakang: Do not hide mouse
             }
             else if (!m_cursorIsLocked)
             {
