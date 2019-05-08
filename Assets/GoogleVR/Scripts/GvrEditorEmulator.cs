@@ -134,14 +134,15 @@ public class GvrEditorEmulator : MonoBehaviour {
   }
 
   private IEnumerator<Camera> ValidCameras() {
-    for (int i = 0; i < Camera.allCameras.Length; i++) {
-      Camera cam = Camera.allCameras[i];
-      if (!cam.enabled || cam.stereoTargetEye == StereoTargetEyeMask.None) {
-        continue;
-      }
+    //for (int i = 0; i < Camera.allCameras.Length; i++) {
+    //  Camera cam = Camera.allCameras[i];
+    //  if (!cam.enabled || cam.stereoTargetEye == StereoTargetEyeMask.None) {
+    //    continue;
+    //  }
 
-      yield return cam;
-    }
+    //  yield return cam;
+    //}
+    yield return Camera.allCameras[0];
   }
 #endif  // UNITY_EDITOR
 }
