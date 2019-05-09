@@ -36,8 +36,10 @@ public abstract class GvrBasePointerRaycaster : BaseRaycaster {
     }
 
     if (pointer.raycastMode == GvrBasePointer.RaycastMode.Hybrid) {
+
       RaycastHybrid(pointer, eventData, resultAppendList);
     } else {
+
       RaycastDefault(pointer, eventData, resultAppendList);
     }
   }

@@ -229,7 +229,7 @@ namespace DaydreamElements.Teleport {
       selectionIsActive = true;
     }
 
-    private void EndTeleportSelection() {
+    public void EndTeleportSelection() {
       detector.EndSelection();
       visualizer.EndSelection();
       selectionIsActive = false;

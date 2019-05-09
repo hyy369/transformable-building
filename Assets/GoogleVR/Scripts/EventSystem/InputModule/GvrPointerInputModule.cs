@@ -76,6 +76,7 @@ public class GvrPointerInputModule : BaseInputModule, IGvrInputModuleController 
   public static GvrBasePointer Pointer {
     get {
       GvrPointerInputModule module = FindInputModule();
+
       if (module == null || module.Impl == null) {
         return null;
       }
