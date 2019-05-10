@@ -7,6 +7,8 @@ public class RayCastDebugger : MonoBehaviour
 {
     public GameObject closestHit;
 
+    public GameObject debugText;
+
     /*Operable: including free translate and operable hinge 
     Selectable: can perform (traditional) rotation, translation and scale*/
     public enum RayHitStatus{None, Selectable, Operable};
@@ -67,7 +69,7 @@ public class RayCastDebugger : MonoBehaviour
             closestHit = null;
         }
         
-        //Debug.Log("Update hit status = " + hitStatus + "Floorstatus = " + floorHitResult.isValid);
+        //debugText.GetComponent<TextMesh>().text = GvrControllerInput.TouchPos.x + " ; " + GvrControllerInput.TouchPos.y;
     }
 
 }

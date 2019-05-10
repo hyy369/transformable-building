@@ -4,19 +4,25 @@ using UnityEngine;
 
 public class ModeToggle : MonoBehaviour
 {
+    public GameObject transformModeSelectionPlate;
+    private GameObject transformModeSelectionInstance;
     public BaseActionTrigger teleportModeEntryTrigger;
     public BaseActionTrigger manipulationModeEntryTrigger;
 
     public enum Mode{Teleport, Manipulation};
+    public enum OperationMode{Translation, RotationY, RotationFree, Scale}
     // Start is called before the first frame update
 
     public GameObject manipulationPointer, mainCamera;
     public GameObject teleportPointer, teleportController;
 
     public Mode playerMode = Mode.Manipulation;
+    public OperationMode operationMode = OperationMode.Translation;
+
+    float hoveringDuration = 0f;
+    
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -42,5 +48,40 @@ public class ModeToggle : MonoBehaviour
             playerMode = Mode.Manipulation;
         }
 
+        if (GvrControllerInput.ClickButton){
+            hoveringDuration = 0f;
+        }
+
+        if (GvrControllerInput.IsTouching){
+            //Just hovering
+            hoveringDuration += Time.deltaTime;
+
+            if (hoveringDuration > 2f && transformModeSelectionInstance == null){
+                transformModeSelectionInstance = GameObject.Instantiate(transformModeSelectionPlate, mainCamera.transform);
+                transformModeSelectionInstance.transform.localPosition = new Vector3(0.5f, 0.35f, 2.2f);
+                transformModeSelectionInstance.transform.localRotation = Quaternion.Euler(-17.4f, 16.8f, 1.8f);
+                transformModeSelectionInstance.transform.localScale = new Vector3(0.13f, 0.13f, 0.21f);
+            }
+        }
+
+        if (GvrControllerInput.TouchUp){
+            hoveringDuration = 0f;
+            switch(transformModeSelectionInstance.GetComponent<TouchpadRotationController>().selectedQuadrant){
+                case 1: 
+                    operationMode = OperationMode.RotationY;
+                    break;
+                case 2:
+                    operationMode = OperationMode.Translation;
+                    break;
+                case 3:
+                    operationMode = OperationMode.RotationFree;
+                    break;
+                case 4:
+                    operationMode = OperationMode.Scale;
+                    break;
+            }
+
+            Destroy(transformModeSelectionInstance);
+        }
     }
 }
