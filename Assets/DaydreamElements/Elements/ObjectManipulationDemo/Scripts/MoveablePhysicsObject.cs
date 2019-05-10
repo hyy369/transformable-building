@@ -120,6 +120,10 @@ namespace DaydreamElements.ObjectManipulation {
     const float MIN_MASS = 1f;
     const float MAX_MASS = 10f;
 
+    /*added */
+    public Vector3 movePositionDelta;
+    private Vector3 movePositionStart;
+
     void Awake() {
       if (rigidbodyCmp == null) {
         rigidbodyCmp = gameObject.GetComponent<Rigidbody>();
@@ -144,6 +148,10 @@ namespace DaydreamElements.ObjectManipulation {
     }
 
     protected override void OnSelect(){
+
+      movePositionStart = transform.position;
+          Debug.Log("Movable Deselect");
+
       // Perform the transformation relative to control.
       Vector3 vectorToObject = transform.position - ControlPosition;
       float d = vectorToObject.magnitude;
@@ -185,6 +193,9 @@ namespace DaydreamElements.ObjectManipulation {
     }
 
     protected override void OnDeselect(){
+      Debug.Log("Movable Deselect");
+      movePositionDelta = transform.position - movePositionStart;
+
       base.OnDeselect();
       ObjectManipulationPointer.ReleaseSelected(gameObject.transform);
       ResetRigidbody();

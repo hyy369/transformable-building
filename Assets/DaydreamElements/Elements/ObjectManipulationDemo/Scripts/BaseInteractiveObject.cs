@@ -116,6 +116,7 @@ namespace DaydreamElements.ObjectManipulation {
 
     // We must check in update because it's possible to miss events if we don't click on the object.
     void Update() {
+
       if (state == ObjectState.Selected && GvrPointerInputModule.Pointer != null) {
         if (GvrPointerInputModule.Pointer.TriggerDown) {
           Deselect();
@@ -148,6 +149,7 @@ namespace DaydreamElements.ObjectManipulation {
     }
 
     protected virtual void OnSelect() {
+
       totalTouchpadMotionSinceSelection = Vector2.zero;
       initialControllerOrientation = controlTransform.rotation;
 

@@ -69,12 +69,12 @@ namespace DaydreamElements.ObjectManipulation {
     private const float INITIAL_Z_PULL_DISTANCE = 0.7f;
     private const float Z_PULL_WEIGHT = 10;
 
+
     void Start() {
       initialRotation = localRotation = transform.localRotation;
     }
 
     void FixedUpdate() {
-      // Move the object in FixedUpdate() if it has a rigidbody attached.
       if (motionMode == MotionMode.Rigidbody && rigidbodyCmp != null){
         Quaternion targetRotation = localRotation;
         if (transform.parent != null) {
@@ -82,6 +82,7 @@ namespace DaydreamElements.ObjectManipulation {
         }
         rigidbodyCmp.MoveRotation(targetRotation);
       }
+      
     }
 
     protected override void OnSelect() {
