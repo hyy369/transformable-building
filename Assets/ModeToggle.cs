@@ -64,7 +64,7 @@ public class ModeToggle : MonoBehaviour
             }
         }
 
-        if (GvrControllerInput.TouchUp){
+        if (GvrControllerInput.TouchUp || GvrControllerInput.ClickButton){
             hoveringDuration = 0f;
             if (transformModeSelectionInstance == null){
                 return;
