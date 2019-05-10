@@ -6,8 +6,11 @@ using UnityEngine.EventSystems;
 public class RayCastDebugger : MonoBehaviour
 {
     public GameObject closestHit;
+    public Vector3 hitPoint;
 
     public GameObject debugText;
+
+    
 
     /*Operable: including free translate and operable hinge 
     Selectable: can perform (traditional) rotation, translation and scale*/
@@ -23,6 +26,24 @@ public class RayCastDebugger : MonoBehaviour
             foreach (RaycastResult hit in hits){
                 if (hit.gameObject.tag == "Floor" 
                     && hit.worldPosition.y < transform.position.y){
+                    return hit;
+                }
+            }
+
+            var invalid = new RaycastResult();
+            invalid.gameObject =  null;
+            return invalid;
+        }
+    }
+
+    public RaycastResult UIHitResult{
+        get{
+            GvrPointerPhysicsRaycaster caster = gameObject.GetComponent<GvrPointerPhysicsRaycaster>();
+            List<RaycastResult> hits = new List<RaycastResult>();
+            caster.Raycast(null, hits);
+
+            foreach (RaycastResult hit in hits){
+                if (hit.gameObject.tag == "UI"){
                     return hit;
                 }
             }
@@ -62,6 +83,7 @@ public class RayCastDebugger : MonoBehaviour
                 if (r.distance < minDistance){
                     minDistance = r.distance;
                     closestHit = r.gameObject;
+                    hitPoint = r.worldPosition;
                 }
             }
         }

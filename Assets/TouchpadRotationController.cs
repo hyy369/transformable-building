@@ -10,7 +10,6 @@ public class TouchpadRotationController : MonoBehaviour
     public GameObject rotationPivot;
     void Start()
     {
-
         selectedQuadrant = 2;
     }
 

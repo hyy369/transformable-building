@@ -56,9 +56,9 @@ public class ModeToggle : MonoBehaviour
             //Just hovering
             hoveringDuration += Time.deltaTime;
 
-            if (hoveringDuration > 2f && transformModeSelectionInstance == null){
+            if (hoveringDuration > 1.2f && transformModeSelectionInstance == null){
                 transformModeSelectionInstance = GameObject.Instantiate(transformModeSelectionPlate, mainCamera.transform);
-                transformModeSelectionInstance.transform.localPosition = new Vector3(0.5f, 0.35f, 2.2f);
+                transformModeSelectionInstance.transform.localPosition = new Vector3(0.5f, 0.3f, 2.2f);
                 transformModeSelectionInstance.transform.localRotation = Quaternion.Euler(-17.4f, 16.8f, 1.8f);
                 transformModeSelectionInstance.transform.localScale = new Vector3(0.13f, 0.13f, 0.21f);
             }
@@ -66,6 +66,10 @@ public class ModeToggle : MonoBehaviour
 
         if (GvrControllerInput.TouchUp){
             hoveringDuration = 0f;
+            if (transformModeSelectionInstance == null){
+                return;
+            }
+
             switch(transformModeSelectionInstance.GetComponent<TouchpadRotationController>().selectedQuadrant){
                 case 1: 
                     operationMode = OperationMode.RotationY;
