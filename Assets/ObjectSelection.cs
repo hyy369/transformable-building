@@ -13,16 +13,21 @@ public class ObjectSelection : MonoBehaviour
     ModeToggle modeManager;
 
     bool selecting = false;
+
+    // For Translation
     Vector3 startDragPosition, startDraggingObjectPosition;
 
-    public GameObject roundMeterPrefab;
-    GameObject roundMeter, roundMeterIndicator;
+    // For RotateY & Scale
+    public GameObject roundMeterPrefab, roundMeterCursorPrefab;
+    GameObject roundMeter, roundMeterCursor;
     readonly float planeRadius = 0.7f;
     GameObject selectingObject;
     Plane roundMeterPlane;
     Vector3  roundMeterPlaneCenter;
-
     Vector3 lastPlaneHitPoint;
+
+    // For RotationFree
+    Quaternion lastPointerRotation;
 
     void Start()
     {
@@ -46,7 +51,7 @@ public class ObjectSelection : MonoBehaviour
                         startDraggingObjectPosition = selectingObject.transform.position;
                     }
                     break;
-                case ModeToggle.OperationMode.Scale:
+                case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
                     if (roundMeter != null){
                         break;
                     }
@@ -67,25 +72,29 @@ public class ObjectSelection : MonoBehaviour
                     lastPlaneHitPoint = planeBottom;
 
                     break;
+                case ModeToggle.OperationMode.RotationFree:
+                    lastPointerRotation = transform.rotation;
+                    break;
             }
         }
 
         if (selecting){
             // Moving
             switch(modeManager.operationMode){
-                case ModeToggle.OperationMode.Translation:
+                case ModeToggle.OperationMode.Translation: 
                     Vector3 currentDragPosition = rayCaster.GetComponent<RayCastDebugger>().floorHitResult.worldPosition;
                     selectingObject.transform.position = currentDragPosition - startDragPosition + startDraggingObjectPosition;
                     break;
-                case ModeToggle.OperationMode.Scale:
+                case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
                     RaycastResult result = rayCaster.GetComponent<RayCastDebugger>().UIHitResult;
                     Vector3 hitPoint = result.worldPosition;
                     Vector3 meterCurser = roundMeterPlaneCenter + (hitPoint - roundMeterPlaneCenter).normalized * planeRadius;
-                    if (roundMeterIndicator == null){
-                        roundMeterIndicator = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                        roundMeterIndicator.transform.localScale = Vector3.one * 0.1f;
+                    if (roundMeterCursor == null){
+                        roundMeterCursor = Instantiate(roundMeterCursorPrefab);
+                        roundMeterCursor.transform.localScale = Vector3.one * 0.05f;
                     }
-                    roundMeterIndicator.transform.position = meterCurser;
+                    roundMeterCursor.transform.position = meterCurser;
+                    roundMeterCursor.transform.rotation = Quaternion.LookRotation(roundMeterPlane.normal, hitPoint - roundMeterPlaneCenter);
                     float deltaAngle = Vector3.Angle(
                         (lastPlaneHitPoint - roundMeterPlaneCenter).normalized,
                         (hitPoint - roundMeterPlaneCenter).normalized
@@ -95,12 +104,21 @@ public class ObjectSelection : MonoBehaviour
                         Vector3.Cross(
                         lastPlaneHitPoint - roundMeterPlaneCenter,
                         hitPoint - roundMeterPlaneCenter)));
-
-                    Debug.Log("DeltaAngle = " + deltaAngle);
                     
-                    selectingObject.transform.localScale *= (1 + deltaAngle / 360.0f);
+                    if (modeManager.operationMode == ModeToggle.OperationMode.Scale){
+                        selectingObject.transform.localScale *= (1 + deltaAngle / 360.0f);
+                    }
+                    else{
+                        selectingObject.transform.Rotate(0f, deltaAngle, 0f);
+                    }
 
                     lastPlaneHitPoint = hitPoint;
+                    break;
+                case ModeToggle.OperationMode.RotationFree:
+                    Quaternion currentRotation = transform.rotation;
+                    selectingObject.transform.rotation *= currentRotation * Quaternion.Inverse(lastPointerRotation);
+
+                    lastPointerRotation = currentRotation;
                     break;
             }
         }
@@ -109,20 +127,12 @@ public class ObjectSelection : MonoBehaviour
             // Clicking up
             selecting = false;
             switch(modeManager.operationMode){
-                case ModeToggle.OperationMode.Scale:
+                case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
                     Destroy(roundMeter);
-                    Destroy(roundMeterIndicator);
+                    Destroy(roundMeterCursor);
                     break;
             }
         }
 
     }
-
-    /*
-    public void OnDrawGizmos(){
-        Debug.Log("Giz");
-        Gizmos.DrawSphere(dbg_center, 0.1f);
-        Gizmos.DrawSphere(dbg_bottom, 0.05f);
-    }
-    */
 }
