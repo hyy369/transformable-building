@@ -16,6 +16,8 @@ public class ObjectSelection : MonoBehaviour
 
     // For Translation
     Vector3 startDragPosition, startDraggingObjectPosition;
+    public GameObject planeIndicatorPrefab, planeIndicator;
+    readonly float indicatorOffset;
 
     // For RotateY & Scale
     public GameObject roundMeterPrefab, roundMeterCursorPrefab;
@@ -49,6 +51,11 @@ public class ObjectSelection : MonoBehaviour
                     if (result.gameObject != null){
                         startDragPosition = result.worldPosition;
                         startDraggingObjectPosition = selectingObject.transform.position;
+
+                        planeIndicator = Instantiate(planeIndicatorPrefab, selectingObject.transform);
+                        planeIndicator.transform.position = result.worldPosition + Vector3.up * indicatorOffset;
+                        planeIndicator.transform.localScale /= selectingObject.transform.localScale.y;
+                        planeIndicator.transform.rotation = Quaternion.identity;
                     }
                     break;
                 case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
@@ -131,6 +138,9 @@ public class ObjectSelection : MonoBehaviour
 
             selecting = false;
             switch(modeManager.operationMode){
+                case ModeToggle.OperationMode.Translation:
+                    Destroy(planeIndicator);
+                    break;
                 case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
                     Destroy(roundMeter);
                     Destroy(roundMeterCursor);
