@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: M_CubeShelf_Slate
   m_Shader: {fileID: 4800000, guid: a0e234ca8d7ff4db0bf8c9fd60293a6b, type: 3}
   m_ShaderKeywords: 
@@ -73,6 +74,6 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.43555364, g: 0.5078152, b: 0.5588235, a: 1}
+    - _Color: {r: 0.73333335, g: 0.65882355, b: 0.53333336, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _HighlightColor: {r: 0.35121104, g: 0.7447248, b: 0.85294116, a: 1}
+    - _HighlightColor: {r: 0, g: 0.9286411, b: 1, a: 1}

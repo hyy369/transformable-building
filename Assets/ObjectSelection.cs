@@ -80,6 +80,8 @@ public class ObjectSelection : MonoBehaviour
 
         if (selecting){
             // Moving
+            selectingObject.GetComponent<Rigidbody>().isKinematic = true;
+
             switch(modeManager.operationMode){
                 case ModeToggle.OperationMode.Translation: 
                     Vector3 currentDragPosition = rayCaster.GetComponent<RayCastDebugger>().floorHitResult.worldPosition;
@@ -125,6 +127,8 @@ public class ObjectSelection : MonoBehaviour
 
         if (GvrControllerInput.ClickButtonUp && selecting){
             // Clicking up
+            selectingObject.GetComponent<Rigidbody>().isKinematic = false;
+
             selecting = false;
             switch(modeManager.operationMode){
                 case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
