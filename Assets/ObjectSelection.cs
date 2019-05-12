@@ -16,7 +16,8 @@ public class ObjectSelection : MonoBehaviour
 
     // For Translation
     Vector3 startDragPosition, startDraggingObjectPosition;
-    public GameObject planeIndicatorPrefab, planeIndicator;
+    public GameObject planeIndicatorPrefab;
+    GameObject planeIndicator;
     readonly float indicatorOffset;
 
     // For RotateY & Scale
@@ -30,6 +31,8 @@ public class ObjectSelection : MonoBehaviour
 
     // For RotationFree
     Quaternion lastPointerRotation;
+    public GameObject freeRotationIndicatorPrefab;
+    GameObject freeRotationIndicator;
 
     void Start()
     {
@@ -52,10 +55,13 @@ public class ObjectSelection : MonoBehaviour
                         startDragPosition = result.worldPosition;
                         startDraggingObjectPosition = selectingObject.transform.position;
 
-                        planeIndicator = Instantiate(planeIndicatorPrefab, selectingObject.transform);
-                        planeIndicator.transform.position = result.worldPosition + Vector3.up * indicatorOffset;
-                        planeIndicator.transform.localScale /= selectingObject.transform.localScale.y;
-                        planeIndicator.transform.rotation = Quaternion.identity;
+                        planeIndicator = Instantiate(planeIndicatorPrefab, startDragPosition + Vector3.up * indicatorOffset,
+                        selectingObject.transform.rotation, selectingObject.transform);
+                        Vector3 originalScale = planeIndicator.transform.localScale;
+                        planeIndicator.transform.localScale = new Vector3(
+                            originalScale.x / selectingObject.transform.localScale.x,
+                            originalScale.y / selectingObject.transform.localScale.y,
+                            originalScale.z / selectingObject.transform.localScale.z);
                     }
                     break;
                 case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
@@ -81,6 +87,13 @@ public class ObjectSelection : MonoBehaviour
                     break;
                 case ModeToggle.OperationMode.RotationFree:
                     lastPointerRotation = transform.rotation;
+                    freeRotationIndicator = Instantiate(freeRotationIndicatorPrefab, rayCaster.GetComponent<RayCastDebugger>().hitPoint, 
+                    selectingObject.transform.rotation, selectingObject.transform);
+                        Vector3 originalScale1 = freeRotationIndicator.transform.localScale;
+                        freeRotationIndicator.transform.localScale = new Vector3(
+                            originalScale1.x / selectingObject.transform.localScale.x,
+                            originalScale1.y / selectingObject.transform.localScale.y,
+                            originalScale1.z / selectingObject.transform.localScale.z);
                     break;
             }
         }
@@ -144,6 +157,9 @@ public class ObjectSelection : MonoBehaviour
                 case ModeToggle.OperationMode.Scale: case ModeToggle.OperationMode.RotationY:
                     Destroy(roundMeter);
                     Destroy(roundMeterCursor);
+                    break;
+                case ModeToggle.OperationMode.RotationFree:
+                    Destroy(freeRotationIndicator);
                     break;
             }
         }
