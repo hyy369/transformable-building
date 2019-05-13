@@ -188,6 +188,11 @@ namespace DaydreamElements.Teleport {
       float playerHeight = DetectPlayerHeight();
       selectionResult = detector.DetectSelection(currentController, playerHeight);
 
+      // Should not teleport to ceiling
+      if (selectionResult.selection.y > player.transform.position.y){
+          return;
+      }
+
       // Update the visualization.
       visualizer.UpdateSelection(currentController, selectionResult);
 
