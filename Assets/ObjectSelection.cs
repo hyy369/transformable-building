@@ -42,6 +42,17 @@ public class ObjectSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GvrControllerInput.ClickButtonDown && rayCaster.GetComponent<RayCastDebugger>().hitStatus == RayCastDebugger.RayHitStatus.Animated){
+            Transform curr = rayCaster.GetComponent<RayCastDebugger>().closestHit.transform;
+            while (curr != null){
+                if (curr.GetComponent<Animator>() != null){
+                    curr.GetComponent<Animator>().SetTrigger("Toggle");
+                }
+                curr = curr.transform.parent;
+            }
+            
+        }
+
         if (!selecting && GvrControllerInput.ClickButtonDown && 
          rayCaster.GetComponent<RayCastDebugger>().hitStatus == RayCastDebugger.RayHitStatus.Selectable){
             //Click down

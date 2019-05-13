@@ -56,7 +56,7 @@ public class ModeToggle : MonoBehaviour
             //Just hovering
             hoveringDuration += Time.deltaTime;
 
-            if (hoveringDuration > 1.2f && transformModeSelectionInstance == null){
+            if (hoveringDuration > 1.6f && transformModeSelectionInstance == null){
                 transformModeSelectionInstance = GameObject.Instantiate(transformModeSelectionPlate, mainCamera.transform);
                 transformModeSelectionInstance.transform.localPosition = new Vector3(0.5f, 0.3f, 2.2f);
                 transformModeSelectionInstance.transform.localRotation = Quaternion.Euler(-17.4f, 16.8f, 1.8f);

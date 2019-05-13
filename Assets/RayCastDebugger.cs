@@ -14,7 +14,7 @@ public class RayCastDebugger : MonoBehaviour
 
     /*Operable: including free translate and operable hinge 
     Selectable: can perform (traditional) rotation, translation and scale*/
-    public enum RayHitStatus{None, Selectable, Operable};
+    public enum RayHitStatus{None, Selectable, Operable, Animated};
     
     /* TODO - Should only return the nearest floor that is hit, excluding the ceiling*/
     public RaycastResult floorHitResult{
@@ -66,6 +66,11 @@ public class RayCastDebugger : MonoBehaviour
             if (closestHit.layer == LayerMask.NameToLayer("Selectable")){
                 return RayHitStatus.Selectable;
             }
+
+            if (closestHit.layer == LayerMask.NameToLayer("Animated")){
+                return RayHitStatus.Animated; 
+            }
+            
             return RayHitStatus.Operable;
         }
     }
