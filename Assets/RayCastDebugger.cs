@@ -8,13 +8,11 @@ public class RayCastDebugger : MonoBehaviour
     public GameObject closestHit;
     public Vector3 hitPoint;
 
-    public GameObject debugText;
-
-    
+    //public GameObject debugText;
 
     /*Operable: including free translate and operable hinge 
     Selectable: can perform (traditional) rotation, translation and scale*/
-    public enum RayHitStatus{None, Selectable, Operable, Animated};
+    public enum RayHitStatus{None, Selectable, Operable, Animated, Button};
     
     /* TODO - Should only return the nearest floor that is hit, excluding the ceiling*/
     public RaycastResult floorHitResult{
@@ -69,6 +67,10 @@ public class RayCastDebugger : MonoBehaviour
 
             if (closestHit.layer == LayerMask.NameToLayer("Animated")){
                 return RayHitStatus.Animated; 
+            }
+
+            if (closestHit.layer == LayerMask.NameToLayer("Button")){
+                return RayHitStatus.Button;
             }
             
             return RayHitStatus.Operable;

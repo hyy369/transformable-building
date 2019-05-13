@@ -47,10 +47,49 @@ public class ObjectSelection : MonoBehaviour
             while (curr != null){
                 if (curr.GetComponent<Animator>() != null){
                     curr.GetComponent<Animator>().SetTrigger("Toggle");
+                    break;
                 }
                 curr = curr.transform.parent;
             }
-            
+        }
+
+        if (GvrControllerInput.ClickButtonDown && rayCaster.GetComponent<RayCastDebugger>().hitStatus == RayCastDebugger.RayHitStatus.Button){
+            GameObject curr = rayCaster.GetComponent<RayCastDebugger>().closestHit;
+            int curr_floor, target_floor;
+            switch(curr.tag){
+                case "F1":
+                    curr_floor = 1;
+                    break;
+                case "F2":
+                    curr_floor = 2;
+                    break;
+                case "F3":
+                    curr_floor = 3;
+                    break;
+                default:
+                    curr_floor = 4;
+                    break;
+            }
+
+            switch(curr.name){
+                case "F1":
+                    target_floor = 1;
+                    break;
+                case "F2":
+                    target_floor = 2;
+                    break;
+                case "F3":
+                    target_floor = 3;
+                    break;
+                default:
+                    target_floor = 4;
+                    break;
+            }
+            player.transform.position = new Vector3(
+                player.transform.position.x, 
+                player.transform.position.y + (target_floor - curr_floor) * 4.0575f,
+                player.transform.position.z
+            );
         }
 
         if (!selecting && GvrControllerInput.ClickButtonDown && 
