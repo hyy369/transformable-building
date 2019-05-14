@@ -15,7 +15,7 @@ public class MinimapController : MonoBehaviour
     void Update()
     {
 
-        transform.position = FPS.transform.position + new Vector3(0,-100,0);
+        transform.position = new Vector3(FPS.transform.position.x , -99.9f, FPS.transform.position.z);
         transform.forward = FPS.transform.forward;
     }
 }
