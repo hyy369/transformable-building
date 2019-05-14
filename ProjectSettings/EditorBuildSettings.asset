@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/DaydreamElements/Elements/Teleport/Demo/Teleport.unity
+    path: Assets/Scenes/Transformable.unity
     guid: a1777162207744855b17dee588b26f9c
   m_configObjects: {}
