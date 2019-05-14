@@ -47,10 +47,12 @@ namespace DaydreamElements.Teleport {
     }
 
     public override void StartTransition(
-        Transform playerTransform, Transform controller, Vector3 target) {
+      Transform playerTransform, Transform controller, Vector3 target) {
       player = playerTransform;
       targetPosition = target;
       isTransitioning = true;
+
+      GetComponent<AudioSource>().Play();
     }
 
     public override void CancelTransition() {

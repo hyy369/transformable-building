@@ -34,6 +34,12 @@ public class ObjectSelection : MonoBehaviour
     public GameObject freeRotationIndicatorPrefab;
     GameObject freeRotationIndicator;
 
+    // For elevator
+    public GameObject elevatorSoundPlayer;
+
+    [SerializeField]
+    AudioClip doorSound, buttonSound;
+
     void Start()
     {
         modeManager = player.GetComponent<ModeToggle>();
@@ -47,6 +53,8 @@ public class ObjectSelection : MonoBehaviour
             while (curr != null){
                 if (curr.GetComponent<Animator>() != null){
                     curr.GetComponent<Animator>().SetTrigger("Toggle");
+                    GetComponent<AudioSource>().volume = 1.0f;
+                    GetComponent<AudioSource>().PlayOneShot(doorSound);
                     break;
                 }
                 curr = curr.transform.parent;
@@ -90,6 +98,9 @@ public class ObjectSelection : MonoBehaviour
                 player.transform.position.y + (target_floor - curr_floor) * 4.0575f,
                 player.transform.position.z
             );
+            elevatorSoundPlayer.GetComponent<ElevatorSound>().PlaySound();
+            GetComponent<AudioSource>().volume = 0.5f;
+            GetComponent<AudioSource>().PlayOneShot(buttonSound);
         }
 
         if (!selecting && GvrControllerInput.ClickButtonDown && 
